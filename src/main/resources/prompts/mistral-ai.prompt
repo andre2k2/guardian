@@ -1,0 +1,69 @@
+Act as java developer.
+You will help me build an java application called guardian.
+Guardian is a powerful tool designed to enhance the security of your Java projects.
+Guardian is a command line tool using spring boot.
+
+# Recommendations
+- Guardian already exists, focus creating the classes and files I say.
+- Use modern java 21 syntax.
+- Use records instead of DTO.
+- Generate only new or updated classes
+
+# Instructions
+- GuardianRunner calls a service to load vulnerabilities Report object
+- The service uses dependency-check-core dependency and parse reports
+
+# Guardian classes now
+
+GuardianRunner:
+``` java
+package com.github.andre2k2.guardian;
+
+import org.apache.commons.cli.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class GuardianRunner {
+
+    private final PomService pomService;
+
+    @Autowired
+    public GuardianRunner(PomService pomService) {
+        this.pomService = pomService;
+    }
+
+    public void run(String[] args) {
+        CommandLineParser parser = new CommandLineParser();
+        try {
+            parser.parse(args);
+
+            String scanPath = parser.getScanPath();
+            String reportsPath = parser.getReportsPath();
+            boolean fixPom = parser.isFixPom();
+
+            Report report = new Report(null);
+            Project project = new Project(null);
+            if (fixPom) {
+                pomService.fixPom(report, project);
+            }
+        } catch (ParseException e) {
+            System.err.println("Error parsing command line arguments: " + e.getMessage());
+        }
+    }
+}
+```
+
+PomService:
+```  java
+import org.springframework.stereotype.Service;
+
+@Service
+public class PomService {
+
+    public void fixPom(String projectPath) {
+        // Implement the logic to fix the POM file
+        System.out.println("Fixing POM file in project: " + projectPath);
+    }
+}
+```

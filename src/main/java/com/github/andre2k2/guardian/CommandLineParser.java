@@ -10,7 +10,7 @@ public class CommandLineParser {
     public CommandLineParser() {
         options = new Options();
 
-        Option scanOption = new Option("scan", true, "path to projects directory");
+        Option scanOption = new Option("scan", true, "path to project directory");
         scanOption.setRequired(true);
         options.addOption(scanOption);
 

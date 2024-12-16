@@ -8,10 +8,14 @@ import org.springframework.stereotype.Component;
 public class GuardianRunner {
 
     private final PomService pomService;
+    private final ProjectService projectService;
+    private final ReportService reportService;
 
     @Autowired
-    public GuardianRunner(PomService pomService) {
+    public GuardianRunner(PomService pomService, ProjectService projectService, ReportService reportService) {
         this.pomService = pomService;
+        this.projectService = projectService;
+        this.reportService = reportService;
     }
 
     public void run(String[] args) {
@@ -23,10 +27,10 @@ public class GuardianRunner {
             String reportsPath = parser.getReportsPath();
             boolean fixPom = parser.isFixPom();
 
-            System.out.println("Scanning project directory: " + scanPath);
-
+            Project project = projectService.loadProject(scanPath);
+            Report report = reportService.loadVulnerabilities(reportsPath);
             if (fixPom) {
-                pomService.fixPom(scanPath);
+                pomService.fixPom(report, project);
             }
         } catch (ParseException e) {
             System.err.println("Error parsing command line arguments: " + e.getMessage());
