@@ -1,0 +1,9 @@
+Act as java developer.
+You will help me build an java application called guardian.
+Guardian is a powerful tool designed to enhance the security of your Java projects.
+Guardian is a command line tool using spring boot.
+
+#Instructions
+- Generate initial classes the receives commands:
+- first parameter: '-scan' receives a path to projects directory.
+- second parameter: '--fix-pom' if present guardian will call a Service class.
